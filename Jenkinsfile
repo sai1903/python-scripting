@@ -21,7 +21,7 @@ pipeline {
                 // Activate the virtual environment and install dependencies
                 sh '''
                     source $PYTHON_ENV/bin/activate
-                    pip install -r requirements.txt
+                    pip install python
                 '''
             }
         }
