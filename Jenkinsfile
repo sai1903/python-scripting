@@ -1,59 +1,25 @@
 pipeline {
-    agent any
-
-    environment {
-        // Define any environment variables here
-        PYTHON_ENV = 'venv' // Name of the virtual environment
-    }
+    agent any  // This specifies that the pipeline can run on any available agent.
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from the repository
-                git 'https://github.com/sai1903/python-scripting.git'
+                // Checkout code from a Git repository
+                git 'https://github.com/yourusername/your-repo.git'  // Replace with your repository URL
             }
         }
 
-        stage('Setup Python Environment') {
+        stage('Run Python Script') {
             steps {
-                // Create a virtual environment
-                sh 'python3 -m venv $PYTHON_ENV'
-                // Activate the virtual environment and install dependencies
-                sh '''
-                    source $PYTHON_ENV/bin/activate
-                    pip install python
-                '''
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                // Activate the virtual environment and run tests
-                sh '''
-                    source $PYTHON_ENV/bin/activate
-                    pytest tests/
-                '''
-            }
-        }
-
-        stage('Build') {
-            steps {
-                // Any build steps can go here
-                echo 'Building the project...'
+                // Execute the Python script
+                sh 'python3 hello.py'  // Ensure Python 3 is installed on the Jenkins agent
             }
         }
     }
 
     post {
         always {
-            // Clean up the virtual environment
-            sh 'rm -rf $PYTHON_ENV'
-        }
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed!'
+            echo 'Pipeline completed!'
         }
     }
 }
