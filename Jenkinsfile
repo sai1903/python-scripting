@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from a Git repository
-                git 'https://github.com/yourusername/your-repo.git'  // Replace with your repository URL
+                git 'https://github.com/sai1903/python-scripting.git' // Replace with your repository URL
             }
         }
 
