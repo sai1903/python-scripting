@@ -1,0 +1,46 @@
+pipeline {
+    agent any  // This specifies that the pipeline can run on any available agent.
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out the code from the GitHub repository...'
+                // Checkout code from a public Git repository
+                git 'https://github.com/sai1903/python-scripting.git'  // Replace with your repository URL
+            }
+        }
+
+        stage('Compile') {
+            steps {
+                echo 'Compiling the C program...'
+                // Compile the C program
+                sh '''
+                    gcc -o hello first.c  // Compile hello.c to create an executable named hello
+                    if [ $? -eq 0 ]; then  // Check if the compilation was successful
+                        echo "Compilation successful!"
+                    else
+                        echo "Compilation failed!"
+                        exit 1  // Exit the pipeline if compilation fails
+                    fi
+                '''
+            }
+        }
+
+        stage('Run') {
+            steps {
+                echo 'Running the compiled program...'
+                // Execute the compiled program
+                script {
+                    def output = sh(script: './hello', returnStdout: true).trim()  // Run the program and capture output
+                    echo "Output: ${output}"  // Display the output in the Jenkins console
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline completed!'
+        }
+    }
+}
